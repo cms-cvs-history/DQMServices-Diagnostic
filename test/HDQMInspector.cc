@@ -23,6 +23,11 @@
 
 #include "HDQMExpressionEvaluator.h"
 
+#include "DataFormats/SiStripDetId/interface/TIBDetId.h"
+#include "DataFormats/SiStripDetId/interface/TIDDetId.h"
+#include "DataFormats/SiStripDetId/interface/TOBDetId.h"
+#include "DataFormats/SiStripDetId/interface/TECDetId.h"
+
 
 void HDQMInspector::style(){
 
@@ -79,13 +84,14 @@ void HDQMInspector::setDB(std::string DBName, std::string DBTag, std::string DBu
 void HDQMInspector::accessDB(){
   //double start, end;
   // start = clock();   
-
+ 
   if(Iterator!=0)
     delete Iterator;
   
-  Iterator = new CondCachedIter<HDQMSummary>();
+  Iterator = new CondCachedIter<HDQMSummary>(); 
   Iterator->create(DBName_,DBTag_,DBuser_,DBpasswd_,DBblob_);  
-
+  
+ 
   InitializeIOVList();
   //  end = clock();
   //  if(iDebug)
@@ -210,7 +216,7 @@ void HDQMInspector::createTrend(std::string ListItems, std::string CanvasName, i
   }
   const HDQMSummary* reference;
   while(reference = Iterator->next()) { 
-
+   
     if(Iterator->getStartTime()<firstRun || Iterator->getStartTime()>lastRun || isListed(reference->getRunNr(), blackList))
       continue;
 
@@ -299,28 +305,27 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
     
  
     std::stringstream ss;
-    if ( vdetId_[i] == 0)  ss << vlistItems_[i];
-    else if ( vdetId_[i] == 1)   ss << "TIB" << vlistItems_[i];
-    else if ( vdetId_[i] == 2)   ss << "TOB" << vlistItems_[i];
-    else if ( vdetId_[i] == 3)   ss << "TID" << vlistItems_[i];
-    else if ( vdetId_[i] == 4)   ss << "TEC" << vlistItems_[i];
-    else if ( vdetId_[i] == 11)  ss << "TIB_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == 12)  ss << "TIB_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == 13)  ss << "TIB_Layer3" << vlistItems_[i];
-    else if ( vdetId_[i] == 14)  ss << "TIB_Layer4" << vlistItems_[i];
-    else if ( vdetId_[i] == 21)  ss << "TOB_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == 22)  ss << "TOB_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == 23)  ss << "TOB_Layer3" << vlistItems_[i];
-    else if ( vdetId_[i] == 24)  ss << "TOB_Layer4" << vlistItems_[i];
-    else if ( vdetId_[i] == 25)  ss << "TOB_Layer5" << vlistItems_[i];
-    else if ( vdetId_[i] == 26)  ss << "TOB_Layer6" << vlistItems_[i];
-    else if ( vdetId_[i] == 311) ss << "TID_Side1_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == 312) ss << "TID_Side1_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == 313) ss << "TID_Side1_Layer3" << vlistItems_[i];
-    else if ( vdetId_[i] == 321) ss << "TID_Side2_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == 322) ss << "TID_Side2_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == 323) ss << "TID_Side2_Layer3" << vlistItems_[i];
-    
+    if ( vdetId_[i] == SiStripDetId(DetId::Tracker,0).rawId()) ss << vlistItems_[i];
+    else if ( vdetId_[i] == TIBDetId(0,0,0,0,0,0).rawId())   ss << "TIB" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(0,0,0,0,0).rawId())     ss << "TOB" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(0,0,0,0,0,0).rawId())   ss << "TID" << vlistItems_[i];
+    else if ( vdetId_[i] == TECDetId(0,0,0,0,0,0,0).rawId()) ss << "TEC" << vlistItems_[i];
+    else if ( vdetId_[i] == TIBDetId(1,0,0,0,0,0).rawId())   ss << "TIB_Layer1" << vlistItems_[i];
+    else if ( vdetId_[i] == TIBDetId(2,0,0,0,0,0).rawId())   ss << "TIB_Layer2" << vlistItems_[i];
+    else if ( vdetId_[i] == TIBDetId(3,0,0,0,0,0).rawId())   ss << "TIB_Layer3" << vlistItems_[i];
+    else if ( vdetId_[i] == TIBDetId(4,0,0,0,0,0).rawId())   ss << "TIB_Layer4" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(1,0,0,0,0).rawId())     ss << "TOB_Layer1" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(2,0,0,0,0).rawId())     ss << "TOB_Layer2" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(3,0,0,0,0).rawId())     ss << "TOB_Layer3" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(4,0,0,0,0).rawId())     ss << "TOB_Layer4" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(5,0,0,0,0).rawId())     ss << "TOB_Layer5" << vlistItems_[i];
+    else if ( vdetId_[i] == TOBDetId(6,0,0,0,0).rawId())     ss << "TOB_Layer6" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(1,1,0,0,0,0).rawId())   ss << "TID_Side1_Layer1" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(1,2,0,0,0,0).rawId())   ss << "TID_Side1_Layer2" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(1,3,0,0,0,0).rawId())   ss << "TID_Side1_Layer3" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(2,1,0,0,0,0).rawId())   ss << "TID_Side2_Layer1" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(2,2,0,0,0,0).rawId())   ss << "TID_Side2_Layer2" << vlistItems_[i];
+    else if ( vdetId_[i] == TIDDetId(2,3,0,0,0,0).rawId())   ss << "TID_Side2_Layer3" << vlistItems_[i];
     else ss << "Id " << vdetId_[i]<< " " << vlistItems_[i];
     
     bool itemForIntegration = false;

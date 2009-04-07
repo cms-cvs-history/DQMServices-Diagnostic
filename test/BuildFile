@@ -5,6 +5,7 @@
 <use name=CondCore/Utilities>
 
 <use name=CondFormats/DQMObjects>
+<use name=DataFormats/SiStripDetId>
 
 <use name=root>
 <use name=rootgraphics>
