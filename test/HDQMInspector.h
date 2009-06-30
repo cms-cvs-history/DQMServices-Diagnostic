@@ -17,6 +17,7 @@
 #include "cmath"
 #include "CondCore/Utilities/interface/CondCachedIter.h"
 #include "CondFormats/DQMObjects/interface/HDQMSummary.h"
+#include "DQMServices/Diagnostic/interface/HDQMInspectorConfigBase.h"
 #include "TFile.h" 
 
 class HDQMInspector {
@@ -32,9 +33,24 @@ public:
     Iterator(0),
     iDebug(0),
     iDoStat(0)
-    {};
+    {
+      fHDQMInspectorConfig = 0x0;
+    };
   
-  ~HDQMInspector(){
+  HDQMInspector(HDQMInspectorConfigBase* InConfig):
+    DBName_(""),
+    DBTag_(""),
+    DBuser_(""),
+    DBpasswd_(""),
+    DBblob_(""),
+    Iterator(0),
+    iDebug(0),
+    iDoStat(0)
+    {
+      fHDQMInspectorConfig = InConfig;
+    };
+  
+  virtual ~HDQMInspector(){
     delete Iterator;
   };
   struct DetIdItemList {
@@ -49,6 +65,7 @@ public:
   void setDebug(int i){iDebug=i;}
   void setDoStat(int i){iDoStat=i;}
   void setBlackList(std::string& ListItems);
+  void closeFile () { if (fOutFile) fOutFile->Close(); }
   
   inline std::vector<unsigned int> getRuns() { return vRun_;}
   inline std::vector<float> getSummary()     { return vSummary_;}
@@ -85,6 +102,11 @@ private:
 
   int iDebug;
   int iDoStat;
+
+  HDQMInspectorConfigBase* fHDQMInspectorConfig;
+
+public:
+  TFile *fOutFile;
   
 };
 

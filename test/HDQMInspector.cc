@@ -77,8 +77,12 @@ void HDQMInspector::setDB(std::string DBName, std::string DBTag, std::string DBu
 
   accessDB();
   
-  TFile *target = new TFile( "historicDQM.root","RECREATE" );
-  target->cd();
+  fOutFile = new TFile( "historicDQM.root","RECREATE" );
+  if (!fOutFile->IsOpen()) {
+    std::cerr << "ERROR: cannot open output file" << std::endl;
+    exit(1);
+  }
+  fOutFile->cd();
 }
 
 void HDQMInspector::accessDB(){
@@ -222,11 +226,11 @@ void HDQMInspector::createTrend(std::string ListItems, std::string CanvasName, i
 
     if(vDetIdItemListCut.size()){
       for(size_t ij=0;ij!=vDetIdItemListCut.size();++ij){
-   	vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
+           vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
       }
 
       if(!ApplyConditions(Conditions,vDetIdItemListCut))
-	continue;
+        continue;
     }
 
     vRun_.push_back(reference->getRunNr());
@@ -236,11 +240,11 @@ void HDQMInspector::createTrend(std::string ListItems, std::string CanvasName, i
      
       vSummary_.insert(vSummary_.end(),vDetIdItemList_[ij].values.begin(),vDetIdItemList_[ij].values.end());   
       if(iDebug){
-	std::cout << ListItems  << " run " << vRun_.back() << " values \n" ;
-	DetIdItemList detiditemlist=vDetIdItemList_[ij];
-	for(size_t i=0;i<detiditemlist.items.size();++i)
-	  std::cout << "\t" << detiditemlist.items[i] << " " << detiditemlist.values[i] <<" " << i << " \n";
-	std::cout << "\n" << std::endl;
+        std::cout << ListItems  << " run " << vRun_.back() << " values \n" ;
+        DetIdItemList detiditemlist=vDetIdItemList_[ij];
+        for(size_t i=0;i<detiditemlist.items.size();++i)
+          std::cout << "\t" << detiditemlist.items[i] << " " << detiditemlist.values[i] <<" " << i << " \n";
+        std::cout << "\n" << std::endl;
       }
     }
   }
@@ -256,7 +260,7 @@ void HDQMInspector::createTrend(std::string ListItems, std::string CanvasName, i
 }
 
 void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
- 
+
     
   std::cout << "\n********\nplot\n*****\n"<< std::endl;
 
@@ -305,28 +309,12 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
     
  
     std::stringstream ss;
-    if ( vdetId_[i] == SiStripDetId(DetId::Tracker,0).rawId()) ss << vlistItems_[i];
-    else if ( vdetId_[i] == TIBDetId(0,0,0,0,0,0).rawId())   ss << "TIB" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(0,0,0,0,0).rawId())     ss << "TOB" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(0,0,0,0,0,0).rawId())   ss << "TID" << vlistItems_[i];
-    else if ( vdetId_[i] == TECDetId(0,0,0,0,0,0,0).rawId()) ss << "TEC" << vlistItems_[i];
-    else if ( vdetId_[i] == TIBDetId(1,0,0,0,0,0).rawId())   ss << "TIB_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == TIBDetId(2,0,0,0,0,0).rawId())   ss << "TIB_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == TIBDetId(3,0,0,0,0,0).rawId())   ss << "TIB_Layer3" << vlistItems_[i];
-    else if ( vdetId_[i] == TIBDetId(4,0,0,0,0,0).rawId())   ss << "TIB_Layer4" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(1,0,0,0,0).rawId())     ss << "TOB_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(2,0,0,0,0).rawId())     ss << "TOB_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(3,0,0,0,0).rawId())     ss << "TOB_Layer3" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(4,0,0,0,0).rawId())     ss << "TOB_Layer4" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(5,0,0,0,0).rawId())     ss << "TOB_Layer5" << vlistItems_[i];
-    else if ( vdetId_[i] == TOBDetId(6,0,0,0,0).rawId())     ss << "TOB_Layer6" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(1,1,0,0,0,0).rawId())   ss << "TID_Side1_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(1,2,0,0,0,0).rawId())   ss << "TID_Side1_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(1,3,0,0,0,0).rawId())   ss << "TID_Side1_Layer3" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(2,1,0,0,0,0).rawId())   ss << "TID_Side2_Layer1" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(2,2,0,0,0,0).rawId())   ss << "TID_Side2_Layer2" << vlistItems_[i];
-    else if ( vdetId_[i] == TIDDetId(2,3,0,0,0,0).rawId())   ss << "TID_Side2_Layer3" << vlistItems_[i];
-    else ss << "Id " << vdetId_[i]<< " " << vlistItems_[i];
+    if (fHDQMInspectorConfig != 0x0) {
+      ss << fHDQMInspectorConfig->translateDetId( vdetId_[i] ) << vlistItems_[i];
+    } else {
+      ss << "Id " << vdetId_[i] << " " << vlistItems_[i];
+    }
+
     
     bool itemForIntegration = false;
    
@@ -345,39 +333,48 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       
      
       if(vlistItems_[i].find("mean")!=std::string::npos){
-	//if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
-	EY[j]=vSummary_[index+2]>0?vSummary_[index+1]/sqrt(vSummary_[index+2]):0;
-	addShift=2;
+        //if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
+        EY[j]=vSummary_[index+2]>0?vSummary_[index+1]/sqrt(vSummary_[index+2]):0;
+        addShift=2;
       }else if (vlistItems_[i].find("landauPeak")!=std::string::npos){
-	EY[j]=vSummary_[index+1];
-	addShift=1;
+        EY[j]=vSummary_[index+1];
+        addShift=1;
       }
       else if (vlistItems_[i].find("gaussMean")!=std::string::npos){
-	EY[j]=vSummary_[index+1];
-	addShift=1;
+        EY[j]=vSummary_[index+1];
+        addShift=1;
       }
       else if (vlistItems_[i].find("Chi2NDF")!=std::string::npos || vlistItems_[i].find("rms")!=std::string::npos){
         EY[j]= 0.;
       }
-      else{
-	EY[j]=sqrt(Y[j]);
+      //else if (fHDQMInspectorConfig != 0x0 && fHDQMInspectorConfig->getErrorForQuantity(vlistItems_[i]) != ""){
+      else {
+        std::cout << "Match: " << vlistItems_[i] << "  : " << fHDQMInspectorConfig->getErrorForQuantity(vlistItems_[i]) << std::endl;
+        EY[j]=vSummary_[index+1];
+        addShift=1;
+        std::cout << "dhidas: " << vSummary_[index] << "  error: " << EY[j] << std::endl;
       }
+      //else{
+      //  EY[j]=sqrt(Y[j]);
+      //}
+
      
       // calculate integarted number of events / tracks ... 
       //  
       if ( iDoStat && vlistItems_[i].find("entries")!=std::string::npos  && 
           ( vlistItems_[i].find("NumberOfTracks_CKFTk")!=std::string::npos ||
-	    vlistItems_[i].find("Chi2_RSTk") !=std::string::npos     || 
-	    vlistItems_[i].find("Chi2_CosmicTk")!=std::string::npos    ||
-	    vlistItems_[i].find("Chi2_CKFTk")!=std::string::npos    ))
+            vlistItems_[i].find("Chi2_RSTk") !=std::string::npos     || 
+            vlistItems_[i].find("Chi2_CosmicTk")!=std::string::npos    ||
+            vlistItems_[i].find("Chi2_CKFTk")!=std::string::npos    ))
       { 
-          if (j == 0 ) YCumul[j] = Y[j]; 
-          else         YCumul[j] = Y[j] + YCumul[j-1];
-          itemForIntegration = true; }
+        if (j == 0 ) YCumul[j] = Y[j]; 
+        else         YCumul[j] = Y[j] + YCumul[j-1];
+        itemForIntegration = true;
+      }
       
       
       if(iDebug)
-	std::cout << index-j*vlistItems_.size() <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << std::endl;
+        std::cout << index-j*vlistItems_.size() <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << std::endl;
      
     }
 
@@ -469,12 +466,12 @@ void HDQMInspector::unpackConditions( std::string& Conditions, std::vector<DetId
       std::cout << "Found a Condition " << detiditemlist.items.back() << " for detId " << detiditemlist.detid << std::endl;
       
       if(vdetIdItemList.size())
-	if(vdetIdItemList.back().detid==detiditemlist.detid)
-	  vdetIdItemList.back().items.insert(vdetIdItemList.back().items.end(),detiditemlist.items.begin(),detiditemlist.items.end());
-	else
-	  vdetIdItemList.push_back(detiditemlist);
+        if(vdetIdItemList.back().detid==detiditemlist.detid)
+          vdetIdItemList.back().items.insert(vdetIdItemList.back().items.end(),detiditemlist.items.begin(),detiditemlist.items.end());
+        else
+          vdetIdItemList.push_back(detiditemlist);
       else
-	vdetIdItemList.push_back(detiditemlist); 
+        vdetIdItemList.push_back(detiditemlist); 
     }
     pch = strtok (NULL,delimiters);
   }
