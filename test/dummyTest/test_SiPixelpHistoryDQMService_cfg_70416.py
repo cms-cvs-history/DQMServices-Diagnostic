@@ -7,8 +7,8 @@ process = cms.Process("PWRITE")
 #########################
 
 process.MessageLogger = cms.Service("MessageLogger",
-                                    destinations = cms.untracked.vstring('pixel_69912'),
-                                    pixel_69912 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
+                                    destinations = cms.untracked.vstring('pixel_70416'),
+                                    pixel_70416 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
                                     debugModules = cms.untracked.vstring('*')
                                     )
 
@@ -59,7 +59,7 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
                                                  record = cms.string("HDQMSummary"),
                                                  loggingOn = cms.untracked.bool(True),
                                                  SinceAppendMode = cms.bool(True),
-                                                 Source = cms.PSet(since = cms.untracked.uint32(69587),debug = cms.untracked.bool(False))
+                                                 Source = cms.PSet(since = cms.untracked.uint32(70416),debug = cms.untracked.bool(False))
                                                  )
 
 
@@ -68,10 +68,10 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
 ########################
 
 process.SiPixelHistoryDQMService = cms.Service("SiPixelHistoryDQMService",
-                                               RunNb = cms.uint32(69587),
+                                               RunNb = cms.uint32(70416),
                                                accessDQMFile = cms.bool(True),
-                                               FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/Cosmics__Commissioning08_CRAFT_ALL_V11_227_Tosca090216_ReReco_FromTrackerPointing_v2__RAW-RECO/69912/DQM_V0001_R000069912__Cosmics__Commissioning08_CRAFT_ALL_V11_227_Tosca090216_ReReco_FromTrackerPointing_v2__RAW-RECO_1.root"),
-                                               ME_DIR = cms.untracked.string("Run 69912/SiPixel"),
+                                               FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/Cosmics__Commissioning08_CRAFT_ALL_V11_227_Tosca090216_ReReco_FromTrackerPointing_v2__RAW-RECO/70416/DQM_V0001_R000070416__Cosmics__Commissioning08_CRAFT_ALL_V11_227_Tosca090216_ReReco_FromTrackerPointing_v2__RAW-RECO_1.root"),
+                                               ME_DIR = cms.untracked.string("Run 70416/SiPixel"),
                                                histoList = cms.VPSet(
     
     # quantities are 'stat', 'landau', 'gauss'
