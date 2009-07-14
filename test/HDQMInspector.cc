@@ -349,7 +349,6 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       }
       //else if (fHDQMInspectorConfig != 0x0 && fHDQMInspectorConfig->getErrorForQuantity(vlistItems_[i]) != ""){
       else {
-        std::cout << "Match: " << vlistItems_[i] << "  : " << fHDQMInspectorConfig->getErrorForQuantity(vlistItems_[i]) << std::endl;
         EY[j]=vSummary_[index+1];
         addShift=1;
         std::cout << "dhidas: " << vSummary_[index] << "  error: " << EY[j] << std::endl;
