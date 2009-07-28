@@ -71,7 +71,7 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
 process.SiPixelHistoryDQMService = cms.Service("SiPixelHistoryDQMService",
     RunNb = cms.uint32(108117),
     accessDQMFile = cms.bool(True),
-    FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/PromptReco/108/117//DQM_V0001_R000108117__Cosmics__Commissioning09-PromptReco-v6__RECO.root.origin"),
+    FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/PromptReco/108/117//DQM_V0001_R000108117__Cosmics__Commissioning09-PromptReco-v6__RECO.root"),
     ME_DIR = cms.untracked.string("Run 108117"),
     histoList = cms.VPSet(
 
