@@ -423,14 +423,16 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       graph2->Write();
       C2->Write();
       C2->SaveAs(ss3.str().c_str());
-      C2->SaveAs(ss3.str().replace(ss3.str().find("."),ss3.str().size()-ss3.str().find("."),".C").c_str());
+      // dhidas commented out below because it doesn't seem useful.  uncomment if you like, it was just annoying me.
+      //C2->SaveAs(ss3.str().replace(ss3.str().find("."),ss3.str().size()-ss3.str().find("."),".C").c_str());
       }
    
     
   }
   C->Write();
   C->SaveAs(CanvasName.c_str());
-  C->SaveAs(CanvasName.replace(CanvasName.find("."),CanvasName.size()-CanvasName.find("."),".C").c_str());//savewith .C
+  // dhidas commented out below because it doesn't seem useful.  uncomment if you like, it was just annoying me.
+  //C->SaveAs(CanvasName.replace(CanvasName.find("."),CanvasName.size()-CanvasName.find("."),".C").c_str());//savewith .C
 }
 
 
