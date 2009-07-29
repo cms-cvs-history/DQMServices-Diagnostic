@@ -8,7 +8,7 @@ process = cms.Process("PWRITE")
 
 process.MessageLogger = cms.Service("MessageLogger",
                                     destinations = cms.untracked.vstring('cout'),
-#readFromFile_108117 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
+#readFromFile_108526 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
                                     debugModules = cms.untracked.vstring('*')
                                     )
 
@@ -48,7 +48,7 @@ process.PoolDBOutputService = cms.Service("PoolDBOutputService",
                                           connect = cms.string('sqlite_file:dbfile.db'),
                                           toPut = cms.VPSet(cms.PSet(
     record = cms.string("HDQMSummary"),
-    tag = cms.string("TAGNAME")
+    tag = cms.string("HDQM_SiPixel")
     )),
                                           logconnect = cms.untracked.string("sqlite_file:log.db") 
                                           )
@@ -60,7 +60,7 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
                                                  record = cms.string("HDQMSummary"),
                                                  loggingOn = cms.untracked.bool(True),
                                                  SinceAppendMode = cms.bool(True),
-                                                 Source = cms.PSet(since = cms.untracked.uint32(108117),debug = cms.untracked.bool(False))
+                                                 Source = cms.PSet(since = cms.untracked.uint32(108526),debug = cms.untracked.bool(False))
                                                  ) 
 
 
@@ -69,10 +69,10 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
 ########################
 
 process.SiPixelHistoryDQMService = cms.Service("SiPixelHistoryDQMService",
-    RunNb = cms.uint32(108117),
+    RunNb = cms.uint32(108526),
     accessDQMFile = cms.bool(True),
-    FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/PromptReco/108/117//DQM_V0001_R000108117__Cosmics__Commissioning09-PromptReco-v6__RECO.root"),
-    ME_DIR = cms.untracked.string("Run 108117"),
+    FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/PromptReco/108/526/DQM_V0001_R000108526__Cosmics__CRAFT09-PromptReco-v1__RECO.root"),
+    ME_DIR = cms.untracked.string("Run 108526"),
     histoList = cms.VPSet(
 
 # quantities are 'stat', 'landau', 'gauss'

@@ -8,7 +8,7 @@ process = cms.Process("PWRITE")
 
 process.MessageLogger = cms.Service("MessageLogger",
                                     destinations = cms.untracked.vstring('cout'),
-#readFromFile_108462 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
+#readFromFile_108562 = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG')),
                                     debugModules = cms.untracked.vstring('*')
                                     )
 
@@ -60,7 +60,7 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
                                                  record = cms.string("HDQMSummary"),
                                                  loggingOn = cms.untracked.bool(True),
                                                  SinceAppendMode = cms.bool(True),
-                                                 Source = cms.PSet(since = cms.untracked.uint32(108462),debug = cms.untracked.bool(False))
+                                                 Source = cms.PSet(since = cms.untracked.uint32(108562),debug = cms.untracked.bool(False))
                                                  ) 
 
 
@@ -69,10 +69,10 @@ process.siPixelDQMHistoryPopCon = cms.EDAnalyzer("SiPixelDQMHistoryPopCon",
 ########################
 
 process.SiPixelHistoryDQMService = cms.Service("SiPixelHistoryDQMService",
-    RunNb = cms.uint32(108462),
+    RunNb = cms.uint32(108562),
     accessDQMFile = cms.bool(True),
-    FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/PromptReco/108/462//DQM_V0001_R000108462__Cosmics__Commissioning09-PromptReco-v6__RECO.root"),
-    ME_DIR = cms.untracked.string("Run 108462"),
+    FILE_NAME = cms.untracked.string("/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/data/PromptReco/108/562/DQM_V0001_R000108562__Cosmics__CRAFT09-PromptReco-v1__RECO.root"),
+    ME_DIR = cms.untracked.string("Run 108562"),
     histoList = cms.VPSet(
 
 # quantities are 'stat', 'landau', 'gauss'
