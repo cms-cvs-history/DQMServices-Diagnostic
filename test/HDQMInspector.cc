@@ -316,7 +316,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
     }
 
     
-    bool itemForIntegration = false;
+    bool const itemForIntegration = fHDQMInspectorConfig->computeIntegral(vlistItems_[i]);
    
 
     int addShift=0;
@@ -347,38 +347,22 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       else if (vlistItems_[i].find("Chi2NDF")!=std::string::npos || vlistItems_[i].find("rms")!=std::string::npos){
         EY[j]= 0.;
       }
-      //else if (fHDQMInspectorConfig != 0x0 && fHDQMInspectorConfig->getErrorForQuantity(vlistItems_[i]) != ""){
       else {
         //EY[j]=vSummary_[index+1];
         EY[j]=0;// dhidas hack fix for now.  needs to be fixed
         addShift=1;
-        std::cout << "dhidas: " << vSummary_[index] << "  error: " << EY[j] << std::endl;
       }
-      //else{
-      //  EY[j]=sqrt(Y[j]);
-      //}
 
-     
-      // calculate integarted number of events / tracks ... 
-      //  
-      if ( iDoStat && vlistItems_[i].find("entries")!=std::string::npos  && 
-          ( vlistItems_[i].find("NumberOfTracks_CKFTk")!=std::string::npos ||
-            vlistItems_[i].find("Chi2_RSTk") !=std::string::npos     || 
-            vlistItems_[i].find("Chi2_CosmicTk")!=std::string::npos    ||
-            vlistItems_[i].find("Chi2_CKFTk")!=std::string::npos    ))
-      { 
-        if (j == 0 ) YCumul[j] = Y[j]; 
-        else         YCumul[j] = Y[j] + YCumul[j-1];
-        itemForIntegration = true;
-      }
-      
+      // integrate
+      if (j == 0 ) YCumul[j] = Y[j]; 
+      else         YCumul[j] = Y[j] + YCumul[j-1];
+
       
       if(iDebug)
         std::cout << index-j*vlistItems_.size() <<  " " << j  << " " << X[j]  << " " << Y[j] << " " << EY[j] << std::endl;
      
     }
 
-    i+=addShift;
 
     C->cd(++padCount);
     gPad->SetLogy(logy);
@@ -390,29 +374,16 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
     graph->GetXaxis()->SetTitle("Run number");
     graph->Write();
     
-    
-    if (iDoStat && itemForIntegration) 
+    if (itemForIntegration) 
     {  
       std::stringstream ss2; std::stringstream ss3; 
       std::string title =  vlistItems_.at(i);
      
-      
-      if(title.find("_entries")!= std::string::npos)
-      { 
-        title.replace(title.find("_entries"),8,""); }
-      if(title.find("Chi2_")!= std::string::npos)
-      {  
-        title.replace(title.find("Chi2_"),5,"");    }
-      
-      
-      if(title == "NumberOfTracks_CKFTk") 
-      {   ss2 << "Integrated number of events";
-          ss3 << "number_of_events_integrated.gif"; }
-      
-      else                                         
-      {   ss2 << "Integrated number of "<< title; 
-          ss3 << vlistItems_[i]<< "_integrated.gif"; }
-      
+
+      ss2 << title << "_Integral";
+      ss3 << title << "_Integrated.gif";
+
+
      
       TCanvas* C2 = new TCanvas(ss2.str().c_str(),"");
       TGraphErrors* graph2 = new TGraphErrors((int) vRun_.size(),X,YCumul,EX,EX);
@@ -428,6 +399,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       //C2->SaveAs(ss3.str().replace(ss3.str().find("."),ss3.str().size()-ss3.str().find("."),".C").c_str());
       }
    
+    i+=addShift;
     
   }
   C->Write();
