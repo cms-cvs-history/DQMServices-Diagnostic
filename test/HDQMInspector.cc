@@ -304,7 +304,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
   for(size_t i=0;i<vlistItems_.size();++i){
     std::cout <<  "TkRegion " << vdetId_[i] << " " << vlistItems_[i] << std::endl;
 
-    if(vlistItems_.at(i).find("Summary")!= std::string::npos) vlistItems_.at(i).replace(vlistItems_.at(i).find("Summary"),7,"");
+    if(vlistItems_.at(i).find("Summary")!= std::string::npos) vlistItems_.at(i).replace(vlistItems_.at(i).find("Summary_"),8,"");
     if(vlistItems_.at(i).find("@")!= std::string::npos) vlistItems_.at(i).replace(vlistItems_.at(i).find("@"),1,"_");
     
  
@@ -317,6 +317,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
 
     
     bool const itemForIntegration = fHDQMInspectorConfig->computeIntegral(vlistItems_[i]);
+    std::cout << "dhidas Integrate: " << vlistItems_[i] << std::endl;
    
 
     int addShift=0;
@@ -356,6 +357,9 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       // integrate
       if (j == 0 ) YCumul[j] = Y[j]; 
       else         YCumul[j] = Y[j] + YCumul[j-1];
+
+      // dhidas HACK for now
+      EY[j] = 0;
 
       
       if(iDebug)
