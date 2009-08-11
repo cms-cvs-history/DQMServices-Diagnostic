@@ -317,7 +317,6 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
 
     
     bool const itemForIntegration = fHDQMInspectorConfig->computeIntegral(vlistItems_[i]);
-    std::cout << "dhidas Integrate: " << vlistItems_[i] << std::endl;
    
 
     int addShift=0;
@@ -332,11 +331,14 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       // -99   : HDQMSummary object not existing for this detId, informations are missing for all quantities 
       // -10 bad fit ?
       
+      std::cout << "dhidas : " << vlistItems_[i]  << "  " << vdetId_[i] << "  " << Y[j] << std::endl;
      
       if(vlistItems_[i].find("mean")!=std::string::npos){
         //if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
         EY[j]=vSummary_[index+2]>0?vSummary_[index+1]/sqrt(vSummary_[index+2]):0;
         addShift=2;
+      }else if (vlistItems_[i].find("entries")!=std::string::npos) {
+        addShift=0;
       }else if (vlistItems_[i].find("landauPeak")!=std::string::npos){
         EY[j]=vSummary_[index+1];
         addShift=1;
