@@ -373,7 +373,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
     
     graph = new TGraphErrors((int) vRun_.size(),X,Y,EX,EY);
     graph->SetTitle(ss.str().c_str());
-    graph->Draw("Alp");
+    graph->Draw("Ap");
     graph->SetName(ss.str().c_str());
     graph->GetXaxis()->SetTitle("Run number");
     graph->Write();
@@ -393,7 +393,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       TGraphErrors* graph2 = new TGraphErrors((int) vRun_.size(),X,YCumul,EX,EX);
       graph2->SetTitle(ss2.str().c_str());
       graph2->SetMarkerColor(1);
-      graph2->Draw("Alp");
+      graph2->Draw("Ap");
       graph2->SetName(ss2.str().c_str());
       graph2->GetXaxis()->SetTitle("Run number");
       graph2->Write();
