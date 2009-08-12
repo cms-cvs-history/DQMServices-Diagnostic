@@ -64,7 +64,7 @@ public:
   void createTrendLastRuns(std::string ListItems, std::string CanvasName="", int logy=0, std::string Conditions="", unsigned int nRuns=10); 
   void setDebug(int i){iDebug=i;}
   void setDoStat(int i){iDoStat=i;}
-  void setBlackList(std::string& ListItems);
+  void setBlackList(std::string const& ListItems);
   void closeFile () { if (fOutFile) fOutFile->Close(); }
   
   inline std::vector<unsigned int> getRuns() { return vRun_;}

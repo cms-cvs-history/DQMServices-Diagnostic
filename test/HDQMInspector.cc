@@ -103,7 +103,7 @@ void HDQMInspector::accessDB(){
 }
 
 
-void  HDQMInspector::setBlackList(std::string& ListItems)
+void  HDQMInspector::setBlackList(std::string const & ListItems)
 {
    std::string::size_type oldloc = 0; 
    std::string::size_type loc = ListItems.find( ",", oldloc );
@@ -177,21 +177,24 @@ bool HDQMInspector::setRange(unsigned int& firstRun, unsigned int& lastRun){
 
 void HDQMInspector::createTrendLastRuns(std::string ListItems, std::string CanvasName, int logy, std::string Conditions, unsigned int nRuns){   
 
-unsigned int first,last;
-unsigned int iovListSize = iovList.size();
+  unsigned int first,last;
+  unsigned int iovListSize = iovList.size();
 
-if (iovListSize>0) 
-{ 
-  last = iovList.back();
-  
-  if (iovListSize>=nRuns) first = iovList.at(iovListSize-nRuns); 
-  else first = *iovList.begin();
+  if (iovListSize>0) 
+  { 
+    last = iovList.back();
+
+    if (iovListSize>=nRuns) {
+      first = iovList.at(iovListSize-nRuns);
+    } else {
+      first = *iovList.begin();
+    }
   }
   else return;
-  
-createTrend(ListItems,CanvasName,logy,Conditions,first,last);
 
+  createTrend(ListItems,CanvasName,logy,Conditions,first,last);
 
+  return;
 }
 
 
@@ -226,7 +229,7 @@ void HDQMInspector::createTrend(std::string ListItems, std::string CanvasName, i
 
     if(vDetIdItemListCut.size()){
       for(size_t ij=0;ij!=vDetIdItemListCut.size();++ij){
-           vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
+        vDetIdItemListCut[ij].values=reference->getSummaryObj(vDetIdItemListCut[ij].detid, vDetIdItemListCut[ij].items);
       }
 
       if(!ApplyConditions(Conditions,vDetIdItemListCut))
@@ -295,7 +298,7 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
 
   vlistItems_.clear();
   vdetId_.clear();
-  
+
   for(size_t ic=0;ic<vDetIdItemList_.size();++ic){
     vlistItems_.insert(vlistItems_.end(),vDetIdItemList_[ic].items.begin(),vDetIdItemList_[ic].items.end());
     vdetId_.insert(vdetId_.end(),vDetIdItemList_[ic].items.size(),vDetIdItemList_[ic].detid);
@@ -331,7 +334,6 @@ void HDQMInspector::plot(size_t& nPads, std::string CanvasName, int logy){
       // -99   : HDQMSummary object not existing for this detId, informations are missing for all quantities 
       // -10 bad fit ?
       
-      std::cout << "dhidas : " << vlistItems_[i]  << "  " << vdetId_[i] << "  " << Y[j] << std::endl;
      
       if(vlistItems_[i].find("mean")!=std::string::npos){
         //if the quantity requested is mean, the error is evaluated as the error on the mean=rms/sqrt(entries)
@@ -475,7 +477,6 @@ bool HDQMInspector::ApplyConditions(std::string& Conditions, std::vector<DetIdIt
       char* fpos = strstr(cConditions,singleCondition);
       strncpy(fpos,condCVal,strlen(condCVal));
       memset(fpos+strlen(condCVal),' ',strlen(singleCondition)-strlen(condCVal));
-    
       //std::cout << "fpos " << fpos << " len condCVal " << strlen(condCVal) << " strlen(singleCondition) " << strlen(singleCondition) << " len cConditions " << strlen(cConditions)<<std::endl;
       //std::cout << "Conditions Replace: Condition " << singleCondition << " string changed in " << cConditions << std::endl;
     }
