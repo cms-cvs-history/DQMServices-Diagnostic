@@ -2,7 +2,5 @@
 <!-- the class you need -->
  
   <class name="CondCachedIter<HDQMSummary>"/>
-  <class name="HDQMInspector"/>
-  <class name="HDQMGraphAnalysis"/>
  
 </lcgdict>   
