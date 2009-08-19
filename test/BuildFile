@@ -15,8 +15,3 @@
 <use name=rootcintex>
 
 <use name=boost>
-
-<library name="testDQMServicesDiagnostic" file="*.cc">
-</library>
-
-
